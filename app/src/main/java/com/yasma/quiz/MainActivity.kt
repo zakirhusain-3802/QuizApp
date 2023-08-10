@@ -7,7 +7,7 @@ import android.widget.Toast
 import retrofit2.*
 import retrofit2.converter.gson.GsonConverterFactory
 
-const val Base_url="https://jsonplaceholder.typicode.com/"
+const val Base_url="https://jsonplaceholder.typicode.com"
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
