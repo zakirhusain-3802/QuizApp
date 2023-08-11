@@ -1,53 +1,70 @@
 package com.yasma.quiz
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.TextView
-import android.widget.Toast
+import android.view.View
+import android.widget.*
 import retrofit2.*
 import retrofit2.converter.gson.GsonConverterFactory
-import java.util.*
+import java.lang.reflect.Array
 import kotlin.collections.ArrayList
 
 const val Base_url="https://opentdb.com"
+
 class MainActivity : AppCompatActivity() {
+   private var catrgory:Int = 0
+    private var level:String=""
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        val text=findViewById<TextView>(R.id.text)
-        //https://opentdb.com/api.php?amount=10&category=9&difficulty=easy&type=multiple
+        val text=findViewById<TextView>(R.id.textView)
+        val spiner=findViewById<AutoCompleteTextView>(R.id.auto_complete_txt)
+        val levelSelect=findViewById<AutoCompleteTextView>(R.id.level_drop)
+        val startquiz=findViewById<Button>(R.id.startquiz)
 
-        getmyquestion(text)
+        var leves = arrayOf("Easy", "Medium", "Hard")
+        val arrap = ArrayAdapter(
+            this@MainActivity,
+            R.layout.category_list,
+            leves)
+        levelSelect.setAdapter(arrap)
+        levelSelect.onItemClickListener=object :AdapterView.OnItemClickListener{
+            override fun onItemClick(
+                p0: AdapterView<*>?,
+                p1: View?,
+                p2: Int,
+                p3: Long
+            ) {
+
+                level=leves[p2].toString()
+
+            }
+
+        }
+
+        startquiz.setOnClickListener(){
+            if(catrgory!=0&&level!=""){
+
+            text.text=catrgory.toString()+"  "+level.toString()
+                
+                val i =Intent(this,question_dis::class.java)
+                startActivity(i)
+            }
+            else{
+
+                text.text="Plze select category nd level"
+            }
+        }
+
+
+
+
+        getmyquestion(text,spiner)
+
     }
 
-    private fun getmyquestion(text: TextView) {
-        val retrofitBuilder= Retrofit.Builder().addConverterFactory(GsonConverterFactory.create())
-            .baseUrl(Base_url)
-            .build()
-            .create(ApiInterface::class.java)
-//        val retrofitData=retrofitBuilder.getCategroy()
-//        retrofitData.enqueue(object : Callback<List<TriviaCategory>?> {
-//            override fun onResponse(
-//                call: Call<List<TriviaCategory>?>,
-//                response: Response<List<TriviaCategory>?>
-//            ) {
-//                val responseBody=response.body()!!
-//                val triviaCategoriesList = ArrayList<TriviaCategory>()
-//
-//                for (mydata in responseBody) {
-//                    val id = mydata.id
-//                    val name = mydata.name
-//                    val triviaCategory = TriviaCategory(id, name)
-//                    triviaCategoriesList.add(triviaCategory)
-//                }
-//                text.text=triviaCategoriesList.toString()
-//
-//            }
-//
-//            override fun onFailure(call: Call<List<TriviaCategory>?>, t: Throwable) {
-//                Toast.makeText(applicationContext,"Error",Toast.LENGTH_SHORT).show()
-//            }
-//        })
+    private fun getmyquestion(text: TextView, spiner:AutoCompleteTextView) {
 
         val retrofitBuilder1= Retrofit.Builder().addConverterFactory(GsonConverterFactory.create())
             .baseUrl(Base_url)
@@ -62,49 +79,60 @@ class MainActivity : AppCompatActivity() {
                 if (response.isSuccessful) {
                     val responseBody = response.body()!!
                     val triviaCategoriesList = responseBody.trivia_categories
-                    val datain=ArrayList<TriviaCategory>()
+                    val datain = ArrayList<TriviaCategory>()
+                    val array = ArrayList<String>()
 
                     // Now you can work with the triviaCategoriesList
                     for (category in triviaCategoriesList) {
                         // Do something with each category, like adding to your datain ArrayList
-                        val id=category.id
-                        val name=category.name
+                        val id = category.id
+                        val name = category.name
                         val triviaCategory = TriviaCategory(id, name)
+                        array.add(name)
 
                         datain.add(triviaCategory)
                     }
                     println(datain)
-                    text.text=datain.toString()
-                }
+//                    text.text=datain.toString()
+                    val arrap = ArrayAdapter(
+                        this@MainActivity,
+                        R.layout.category_list,
+                        array)
 
-            }
+                    spiner.setAdapter(arrap)
+                    spiner.onItemClickListener=object :AdapterView.OnItemClickListener{
+                        override fun onItemClick(
+                            p0: AdapterView<*>?,
+                            p1: View?,
+                            p2: Int,
+                            p3: Long
+                        ) {
+                            for(data in datain){
+                                if(data.name.equals(array[p2])){
+                                    catrgory=data.id
+                                    Toast.makeText(applicationContext," Id od selected category $catrgory",Toast.LENGTH_SHORT).show()
+                                }
+                            }
+
+                        }
+
+                    }
+
+                }}
+
 
             override fun onFailure(call: Call<catrgory_class?>, t: Throwable) {
 
             }
         })
 
-
-
-//        val retrofitData=retrofitBuilder.getData()
-//         retrofitData.enqueue(object : Callback<List<question_dataItem>?> {
-//             override fun onResponse(
-//                 call: Call<List<question_dataItem>?>,
-//                 response: Response<List<question_dataItem>?>
-//             ) {
-//                 val responseBody=response.body()!!
-//                 val stringBuilder=StringBuilder()
-//                 for (mydata in responseBody){
-//                     stringBuilder.append(mydata.id)
-//                     stringBuilder.append(" ")
-//
-//                 }
-//                 text.text=stringBuilder
-//             }
-//
-//             override fun onFailure(call: Call<List<question_dataItem>?>, t: Throwable) {
-//                 Toast.makeText(applicationContext," Fail ",Toast.LENGTH_SHORT).show()
-//             }
-//         })
     }
-}
+    }
+
+
+//for(data in datain){
+//    if(data.name.equals(array[p2])){
+//        catrgory=data.id
+//        Toast.makeText(applicationContext," Id od selected category $catrgory",Toast.LENGTH_SHORT).show()
+//    }
+//}
