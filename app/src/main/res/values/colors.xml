@@ -10,4 +10,6 @@
     <color name="grey">#424045</color>
     <color name="gold">#f8931f</color>
     <color name="darkb">#0071bd</color>
+    <color name="custom_unchecked_stroke_color">#8e8e8e</color>
+    <color name="custom_checked_color">#2196F3</color>
 </resources>

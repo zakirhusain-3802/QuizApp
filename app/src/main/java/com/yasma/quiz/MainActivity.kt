@@ -7,10 +7,10 @@ import android.view.View
 import android.widget.*
 import retrofit2.*
 import retrofit2.converter.gson.GsonConverterFactory
-import java.lang.reflect.Array
 import kotlin.collections.ArrayList
 
 const val Base_url="https://opentdb.com"
+const val QBase_url="https://opentdb.com/"
 
 class MainActivity : AppCompatActivity() {
    private var catrgory:Int = 0
@@ -45,16 +45,12 @@ class MainActivity : AppCompatActivity() {
 
         startquiz.setOnClickListener(){
             if(catrgory!=0&&level!=""){
-
-            text.text=catrgory.toString()+"  "+level.toString()
-                
-                val i =Intent(this,question_dis::class.java)
-                startActivity(i)
+            getqustions(catrgory,level.toString())
             }
             else{
-
-                text.text="Plze select category nd level"
+                Toast.makeText(applicationContext," Please select category and level",Toast.LENGTH_SHORT).show()
             }
+
         }
 
 
@@ -127,6 +123,44 @@ class MainActivity : AppCompatActivity() {
         })
 
     }
+    private fun getqustions(cat: Int, level: String?) {
+        val retrofitBuilder= Retrofit.Builder().addConverterFactory(GsonConverterFactory.create())
+            .baseUrl(QBase_url)
+            .build()
+            .create(ApiInterface::class.java)
+        val retfofitData=retrofitBuilder.getquestion(10,cat,level.toString(),"multiple")
+        retfofitData.enqueue(object : Callback<question?> {
+            override fun onResponse(call: Call<question?>, response: Response<question?>) =
+                if (response.isSuccessful) {
+                    val responseBody = response.body()
+                    val qeustion= responseBody?.results
+                    val datain = ArrayList<Result>()
+                    for(data in qeustion!!){
+
+                    }
+                    if(qeustion!=null){
+                        println(qeustion)
+
+                       change(qeustion)
+                    }
+                    println(qeustion)
+                } else {
+                    // Handle the error case, such as logging an error message
+                    println("Error: ${response.code()} - ${response.message()}")
+                }
+
+            override fun onFailure(call: Call<question?>, t: Throwable) {
+                println(t.message.toString())
+                Toast.makeText(applicationContext,"Fails",Toast.LENGTH_SHORT).show()
+            }
+        })
+    }
+    private fun change(qeustion: List<Result>) {
+        val i =Intent(this,question_dis::class.java)
+        i.putExtra("cat",ArrayList(qeustion))
+        startActivity(i)
+    }
+
     }
 
 
