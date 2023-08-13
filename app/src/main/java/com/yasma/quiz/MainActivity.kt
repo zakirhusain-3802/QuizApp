@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.*
+import com.yasma.quiz.data.*
 import retrofit2.*
 import retrofit2.converter.gson.GsonConverterFactory
 import kotlin.collections.ArrayList
@@ -15,6 +16,7 @@ const val QBase_url="https://opentdb.com/"
 class MainActivity : AppCompatActivity() {
    private var catrgory:Int = 0
     private var level:String=""
+    private   val datain = ArrayList<que_ans>()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -45,8 +47,12 @@ class MainActivity : AppCompatActivity() {
 
         startquiz.setOnClickListener(){
             if(catrgory!=0&&level!=""){
-            getqustions(catrgory,level.toString())
+
+
+
+                change(catrgory,level)
             }
+
             else{
                 Toast.makeText(applicationContext," Please select category and level",Toast.LENGTH_SHORT).show()
             }
@@ -57,6 +63,7 @@ class MainActivity : AppCompatActivity() {
 
 
         getmyquestion(text,spiner)
+
 
     }
 
@@ -123,41 +130,48 @@ class MainActivity : AppCompatActivity() {
         })
 
     }
-    private fun getqustions(cat: Int, level: String?) {
-        val retrofitBuilder= Retrofit.Builder().addConverterFactory(GsonConverterFactory.create())
-            .baseUrl(QBase_url)
-            .build()
-            .create(ApiInterface::class.java)
-        val retfofitData=retrofitBuilder.getquestion(10,cat,level.toString(),"multiple")
-        retfofitData.enqueue(object : Callback<question?> {
-            override fun onResponse(call: Call<question?>, response: Response<question?>) =
-                if (response.isSuccessful) {
-                    val responseBody = response.body()
-                    val qeustion= responseBody?.results
-                    val datain = ArrayList<Result>()
-                    for(data in qeustion!!){
 
-                    }
-                    if(qeustion!=null){
-                        println(qeustion)
+//    private fun getqustions(cat: Int, level: String?,callback: (ArrayList<que_ans>) -> Unit ) {
+//        val retrofitBuilder= Retrofit.Builder().addConverterFactory(GsonConverterFactory.create())
+//            .baseUrl(QBase_url)
+//            .build()
+//            .create(ApiInterface::class.java)
+//        val retfofitData=retrofitBuilder.getquestion(10,cat,level.toString().lowercase(),"multiple")
+//        retfofitData.enqueue(object : Callback<question?> {
+//            override fun onResponse(call: Call<question?>, response: Response<question?>) =
+//                if (response.isSuccessful) {
+//                    val responseBody = response.body()
+//                    val qeustion= responseBody?.results
+//                    println(responseBody!!.response_code.toString()+" que")
+//
+//                    for(data in qeustion!!){
+//                        val q=data.question
+//                        val ans=data.correct_answer
+//                        val wrg=data.incorrect_answers
+//                        val queandans=que_ans(q.toString(),ans.toString(),wrg)
+//                        datain.add(queandans)
+//
+//
+//                    }
+//                    println(datain+" try")
+//                    callback.invoke(datain)
+//
+//                } else {
+//                    // Handle the error case, such as logging an error message
+//                    println("Error: ${response.code()} - ${response.message()}")
+//                }
+//
+//            override fun onFailure(call: Call<question?>, t: Throwable) {
+//                println(t.message.toString())
+//                Toast.makeText(applicationContext,"Fails",Toast.LENGTH_SHORT).show()
+//            }
+//        })
+//    }
 
-                       change(qeustion)
-                    }
-                    println(qeustion)
-                } else {
-                    // Handle the error case, such as logging an error message
-                    println("Error: ${response.code()} - ${response.message()}")
-                }
-
-            override fun onFailure(call: Call<question?>, t: Throwable) {
-                println(t.message.toString())
-                Toast.makeText(applicationContext,"Fails",Toast.LENGTH_SHORT).show()
-            }
-        })
-    }
-    private fun change(qeustion: List<Result>) {
+    private fun change(catrgory: Int, level: String) {
         val i =Intent(this,question_dis::class.java)
-        i.putExtra("cat",ArrayList(qeustion))
+        i.putExtra("cat",catrgory)
+        i.putExtra("level",level)
         startActivity(i)
     }
 

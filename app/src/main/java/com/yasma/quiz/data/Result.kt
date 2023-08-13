@@ -1,4 +1,4 @@
-package com.yasma.quiz
+package com.yasma.quiz.data
 
 data class Result(
     val category: String,

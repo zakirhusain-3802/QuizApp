@@ -9,11 +9,11 @@
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_margin="20dp"
         android:padding="5dp"
-        app:cardElevation="8dp"
+        app:cardElevation="0dp"
         app:cardCornerRadius="5dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -21,65 +21,91 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.402">
 
-        <LinearLayout
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-
+            android:layout_height="match_parent"
             android:orientation="vertical"
-            android:padding="16dp">
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Question 5/10"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                android:gravity="center"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="50/100"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                android:gravity="center"
+                android:layout_gravity="right"/>
+
+
 
             <TextView
                 android:id="@+id/questionTextView"
-                android:layout_width="wrap_content"
+                android:layout_width="300dp"
                 android:layout_height="wrap_content"
                 android:text="What is the capital of France?"
-                android:textSize="18sp"
-                android:textStyle="bold" />
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:gravity="center"
+                android:layout_marginTop="150dp"
+                android:layout_gravity="center_horizontal"/>
 
             <RadioGroup
                 android:id="@+id/optionsRadioGroup"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp">
+                android:layout_marginBottom="100dp"
+                android:layout_gravity="bottom">
 
                 <RadioButton
                     android:id="@+id/optionARadioButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Paris" />
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:text="Paris"
+                    android:gravity="center"
+                    android:layout_marginBottom="10dp"
+                    android:background="@drawable/radio_selector"
+                    android:button="@color/white"/>
 
                 <RadioButton
                     android:id="@+id/optionBRadioButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Berlin" />
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:background="@drawable/radio_selector"
+                    android:text="Berlin"
+                    android:gravity="center"
+                    android:layout_marginBottom="10dp"
+                    android:button="@color/white"/>
 
                 <RadioButton
                     android:id="@+id/optionCRadioButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="London" />
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:background="@drawable/radio_selector"
+                    android:text="London"
+                    android:gravity="center"
+                    android:layout_marginBottom="10dp"
+                    android:button="@color/white"/>
 
                 <RadioButton
                     android:id="@+id/optionDRadioButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Rome" />
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:background="@drawable/radio_selector"
+                    android:text="Rome"
+                    android:gravity="center"
+                    android:layout_marginBottom="10dp"
+                    android:button="@color/white"/>
             </RadioGroup>
-        </LinearLayout>
+        </FrameLayout>
     </androidx.cardview.widget.CardView>
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/startquiz"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Next"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.896"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cardView"
-        app:layout_constraintVertical_bias="0.133" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 
