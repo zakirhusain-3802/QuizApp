@@ -29,9 +29,10 @@
             android:orientation="vertical"
             >
             <TextView
+                android:id="@+id/qno"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Question 5/10"
+                android:text="Q 5/10"
                 android:textSize="15sp"
                 android:textStyle="bold"
                 android:gravity="center"/>
@@ -120,7 +121,7 @@
         android:id="@+id/progressBar"
         style="@android:style/Widget.ProgressBar.Horizontal"
         android:layout_width="match_parent"
-        android:layout_height="10dp"
+        android:layout_height="5dp"
         android:layout_centerInParent="true"
         android:layout_marginTop="16dp"
         android:max="100"
