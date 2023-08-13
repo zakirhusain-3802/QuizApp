@@ -3,6 +3,8 @@ package com.yasma.quiz
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.CountDownTimer
+import android.widget.ProgressBar
+import android.widget.TextView
 import android.widget.Toast
 import com.google.android.material.progressindicator.LinearProgressIndicator
 import com.yasma.quiz.data.Result
@@ -17,8 +19,10 @@ import retrofit2.converter.gson.GsonConverterFactory
 //const val QBase_url="https://opentdb.com/"
 //https://opentdb.com/api.php?amount=10&category=9&difficulty=medium&type=multiple
 class question_dis : AppCompatActivity() {
-    private var countDownTimer: CountDownTimer? = null
-    private val COUNTDOWN_DURATION: Long = 30000 // Countdown duration in milliseconds
+    private lateinit var countDownTimer: CountDownTimer
+    private val totalTime: Long = 20000 // 60 seconds in milliseconds
+    private val interval: Long = 1// 1 second in milliseconds
+
     private   val datain = ArrayList<que_ans>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -28,9 +32,9 @@ class question_dis : AppCompatActivity() {
         setContentView(R.layout.activity_question_dis)
         val cat=intent.getIntExtra("cat",0)
         val level=intent.getStringExtra("level")
-        println(cat)
 
         getqustions(cat,level.toString().lowercase())
+        startCountdown()
     }
 
 
@@ -68,6 +72,36 @@ class question_dis : AppCompatActivity() {
                 Toast.makeText(applicationContext,"Fails", Toast.LENGTH_SHORT).show()
             }
         })
+    }
+
+    private fun startCountdown() {
+        countDownTimer = object : CountDownTimer(totalTime, interval) {
+            override fun onTick(millisUntilFinished: Long) {
+                val progress = (millisUntilFinished.toFloat() / totalTime * 100).toInt()
+                val progressBar=findViewById<ProgressBar>(R.id.progressBar)
+                progressBar.progress = progress
+                val secondsLeft = millisUntilFinished / 1000
+                val timeLeftTextView=findViewById<TextView>(R.id.timeLeftTextView)
+                timeLeftTextView.text = "Time Left: $secondsLeft s"
+
+            }
+
+            override fun onFinish() {
+                // Countdown has finished, you can perform actions here
+                val progressBar=findViewById<ProgressBar>(R.id.progressBar)
+                progressBar.progress = 0
+                val timeLeftTextView=findViewById<TextView>(R.id.timeLeftTextView)
+                timeLeftTextView.text = "Time Left: 0 s"
+            }
+        }
+
+        // Start the countdown timer when the activity starts
+        countDownTimer.start()
+    }
+    override fun onDestroy() {
+        super.onDestroy()
+        // Cancel the countdown timer to prevent memory leaks
+        countDownTimer.cancel()
     }
 
 }

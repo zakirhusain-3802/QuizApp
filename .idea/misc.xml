@@ -7,9 +7,12 @@
         <entry key="..\:/Quiz/app/src/main/res/drawable-v24/radio_selected.xml" value="0.1435" />
         <entry key="..\:/Quiz/app/src/main/res/drawable-v24/radio_selector.xml" value="0.1435" />
         <entry key="..\:/Quiz/app/src/main/res/drawable/custom_radiobtn.xml" value="0.2075" />
+        <entry key="..\:/Quiz/app/src/main/res/drawable/progrees_bar.xml" value="0.1" />
+        <entry key="..\:/Quiz/app/src/main/res/drawable/progress_bar_mixedcolor.xml" value="0.1" />
+        <entry key="..\:/Quiz/app/src/main/res/drawable/radio_textcolor.xml" value="0.1435" />
         <entry key="..\:/Quiz/app/src/main/res/layout/activity_main.xml" value="0.25" />
         <entry key="..\:/Quiz/app/src/main/res/layout/activity_questin_dis.xml" value="0.2" />
-        <entry key="..\:/Quiz/app/src/main/res/layout/activity_question_dis.xml" value="0.22" />
+        <entry key="..\:/Quiz/app/src/main/res/layout/activity_question_dis.xml" value="0.25" />
         <entry key="..\:/Quiz/app/src/main/res/layout/category_list.xml" value="0.1813953488372093" />
       </map>
     </option>

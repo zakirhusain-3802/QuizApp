@@ -12,4 +12,8 @@
     <color name="darkb">#0071bd</color>
     <color name="custom_unchecked_stroke_color">#8e8e8e</color>
     <color name="custom_checked_color">#2196F3</color>
+
+    <color name="progressBackgroundColor">#E0E0E0</color> <!-- Background color -->
+    <color name="progressStartColor">#FF5733</color> <!-- Start color of the gradient -->
+    <color name="progressEndColor">#00FF00</color>
 </resources>
