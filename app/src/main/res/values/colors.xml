@@ -7,9 +7,11 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="red">#DF2E38</color>
     <color name="grey">#424045</color>
     <color name="gold">#f8931f</color>
     <color name="darkb">#0071bd</color>
+    <color name="green">#1F8A70</color>
     <color name="custom_unchecked_stroke_color">#8e8e8e</color>
     <color name="custom_checked_color">#2196F3</color>
 

@@ -1,10 +1,13 @@
 package com.yasma.quiz
 
+import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.os.Handler
+import android.view.View
 import android.widget.*
+import androidx.cardview.widget.CardView
 import com.google.android.material.progressindicator.LinearProgressIndicator
 import com.yasma.quiz.data.Result
 import com.yasma.quiz.data.que_ans
@@ -21,6 +24,7 @@ import kotlin.collections.ArrayList
 //https://opentdb.com/api.php?amount=10&category=9&difficulty=medium&type=multiple
 class question_dis : AppCompatActivity() {
     private  var s:Int=0
+    private var total:Int=0
     private lateinit var countDownTimer: CountDownTimer
     private val totalTime: Long = 20000 // 60 seconds in milliseconds
     private val interval: Long = 1// 1 second in milliseconds
@@ -28,12 +32,13 @@ class question_dis : AppCompatActivity() {
     private   val datain = ArrayList<que_ans>()
 
     private val handler = Handler()
-    private val initialDelay: Long = 5000
-    private val timeInterval: Long = 21000 // Time interval in milliseconds (e.g., 10 seconds)
+    private val initialDelay: Long = 1000
+    private val timeInterval: Long = 22000 // Time interval in milliseconds (e.g., 10 seconds)
 
 
     private val initialRunnable: Runnable = object : Runnable {
         override fun run() {
+            showProgressBar()
             // Call your initial function here
             val cat=intent.getIntExtra("cat",0)
             val level=intent.getStringExtra("level")
@@ -41,8 +46,25 @@ class question_dis : AppCompatActivity() {
             getqustions(cat,level.toString().lowercase())
 
             // After initial delay, start the repeated execution
+//            hideProgressBar()
             handler.postDelayed(runnable, 5000)
         }
+    }
+
+    private fun hideProgressBar() {
+        val progressBar=findViewById<ProgressBar>(R.id.progressBar1)
+        progressBar.visibility=View.INVISIBLE
+        val card=findViewById<CardView>(R.id.cardView)
+        card.visibility=View.VISIBLE
+
+    }
+
+    private fun showProgressBar() {
+        val card=findViewById<CardView>(R.id.cardView)
+        card.visibility=View.INVISIBLE
+        val progressBar=findViewById<ProgressBar>(R.id.progressBar1)
+        progressBar.visibility=View.VISIBLE
+
     }
 
 
@@ -62,6 +84,7 @@ class question_dis : AppCompatActivity() {
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_question_dis)
+//        showProgressBar()
 //        val cat=intent.getIntExtra("cat",0)
 //        val level=intent.getStringExtra("level")
 
@@ -138,6 +161,7 @@ class question_dis : AppCompatActivity() {
         countDownTimer.cancel()
     }
         private fun myFunction() {
+             hideProgressBar()
               startCountdown()
             // Your function's code here
             val qno=findViewById<TextView>(R.id.qno)
@@ -149,9 +173,12 @@ class question_dis : AppCompatActivity() {
                 val o=data.toString()
                 option.add(o.toString())
             }
+            println(corret.toString()+" Right")
             option.add(corret.toString())
             Collections.shuffle(option)
             println(option)
+            var points=findViewById<TextView>(R.id.points)
+            var selectoption: RadioButton? =null
             val qutxt=findViewById<TextView>(R.id.questionTextView)
             val A=findViewById<RadioButton>(R.id.optionARadioButton)
             val B=findViewById<RadioButton>(R.id.optionBRadioButton)
@@ -160,6 +187,14 @@ class question_dis : AppCompatActivity() {
             s=s+1
             qno.text="Q $s/10"
             qutxt.text=question
+            A.setBackgroundResource(R.drawable.radio_selector)
+            A.setTextColor(Color.BLACK)
+            B.setBackgroundResource(R.drawable.radio_selector)
+            B.setTextColor(Color.BLACK)
+            C.setBackgroundResource(R.drawable.radio_selector)
+            C.setTextColor(Color.BLACK)
+            D.setBackgroundResource(R.drawable.radio_selector)
+            D.setTextColor(Color.BLACK)
             A.text=option[0]
             B.text=option[1]
             C.text=option[2]
@@ -174,6 +209,127 @@ class question_dis : AppCompatActivity() {
 //                radioButton.isChecked = false
 
             }
+             A.setOnClickListener(){val selectedRadioButtonId = radioGroup?.checkedRadioButtonId
+
+                 val selectedRadioButton = findViewById<RadioButton>(selectedRadioButtonId!!)
+                 val selectedOption = selectedRadioButton.text.toString()
+                 A.setTextColor(Color.WHITE)
+                 selectoption=A
+
+                 println("Selected radio: $selectedOption")
+
+                 // Disable all radio buttons in the group to prevent further selection
+                 for (i in 0 until radioGroup!!.childCount) {
+                     radioGroup!!.getChildAt(i).isEnabled = false
+                 }}
+            B.setOnClickListener(){
+                val selectedRadioButtonId = radioGroup?.checkedRadioButtonId
+
+                val selectedRadioButton = findViewById<RadioButton>(selectedRadioButtonId!!)
+                val selectedOption = selectedRadioButton.text.toString()
+                B.setTextColor(Color.WHITE)
+                selectoption=B
+
+                println("Selected radio: $selectedOption")
+
+                // Disable all radio buttons in the group to prevent further selection
+                for (i in 0 until radioGroup!!.childCount) {
+                    radioGroup!!.getChildAt(i).isEnabled = false
+                }
+            }
+            C.setOnClickListener(){
+                val selectedRadioButtonId = radioGroup?.checkedRadioButtonId
+
+                val selectedRadioButton = findViewById<RadioButton>(selectedRadioButtonId!!)
+                C.setTextColor(Color.WHITE)
+                val selectedOption = selectedRadioButton.text.toString()
+                selectoption=C
+
+                println("Selected radio: $selectedOption")
+
+                // Disable all radio buttons in the group to prevent further selection
+                for (i in 0 until radioGroup!!.childCount) {
+                    radioGroup!!.getChildAt(i).isEnabled = false
+                }
+            }
+            D.setOnClickListener(){
+                val selectedRadioButtonId = radioGroup?.checkedRadioButtonId
+
+                val selectedRadioButton = findViewById<RadioButton>(R.id.optionDRadioButton)
+                D.setTextColor(Color.WHITE)
+                val selectedOption = selectedRadioButton.text.toString()
+                selectoption=D
+
+                println("Selected radio: $selectedOption")
+
+                // Disable all radio buttons in the group to prevent further selection
+                for (i in 0 until radioGroup!!.childCount) {
+                    radioGroup!!.getChildAt(i).isEnabled = false
+                }
+            }
+            handler.postDelayed({
+                if(selectoption!=null){
+                                if(selectoption!!.text.toString().equals(corret)){
+                                    selectoption!!.setBackgroundResource(R.color.green)
+                                    selectoption!!.setTextColor(Color.WHITE)
+                                    total=total+10
+                                    points.text=total.toString()+"/100"
+
+
+                                }
+                                else{
+                                    selectoption!!.setBackgroundResource(R.color.red)
+                                    selectoption!!.setTextColor(Color.WHITE)
+                                     if(A.text.toString().equals(corret)){
+                                         A.setBackgroundResource(R.color.green)
+                                         A.setTextColor(Color.WHITE)
+
+                                     }
+                                    else if(B.text.toString().equals(corret)){
+                                         B.setBackgroundResource(R.color.green)
+                                         B.setTextColor(Color.WHITE)
+
+                                     }
+                                    else if(C.text.toString().equals(corret)){
+                                         C.setBackgroundResource(R.color.green)
+                                         C.setTextColor(Color.WHITE)
+
+                                    }
+                                    else if(D.text.toString().equals(corret)){
+                                         D.setBackgroundResource(R.color.green)
+                                         D.setTextColor(Color.WHITE)
+
+                                    }
+
+                                }
+
+                }else{
+                    if(A.text.toString().equals(corret)){
+                        A.setBackgroundResource(R.color.green)
+                        A.setTextColor(Color.WHITE)
+
+                    }
+                    else if(B.text.toString().equals(corret)){
+                        B.setBackgroundResource(R.color.green)
+                        B.setTextColor(Color.WHITE)
+
+                    }
+                    else if(C.text.toString().equals(corret)){
+                        C.setBackgroundResource(R.color.green)
+                        C.setTextColor(Color.WHITE)
+
+                    }
+                    else if(D.text.toString().equals(corret)){
+                        D.setBackgroundResource(R.color.green)
+                        D.setTextColor(Color.WHITE)
+
+                    }
+
+
+                }
+
+            }, 20000)
+
 
             radioGroup.setOnClickListener(){
                 println("click")
@@ -191,14 +347,9 @@ class question_dis : AppCompatActivity() {
             }
 
 
-
-
-
-
-
-
-
         }
+
+
 
 }
 
