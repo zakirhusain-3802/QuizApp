@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
@@ -12,12 +11,13 @@
         <entry key="..\:/Quiz/app/src/main/res/drawable/radio_textcolor.xml" value="0.1435" />
         <entry key="..\:/Quiz/app/src/main/res/layout/activity_main.xml" value="0.25" />
         <entry key="..\:/Quiz/app/src/main/res/layout/activity_questin_dis.xml" value="0.2" />
-        <entry key="..\:/Quiz/app/src/main/res/layout/activity_question_dis.xml" value="0.25" />
+        <entry key="..\:/Quiz/app/src/main/res/layout/activity_question_dis.xml" value="0.23222748815165878" />
         <entry key="..\:/Quiz/app/src/main/res/layout/category_list.xml" value="0.1813953488372093" />
+        <entry key="..\:/Quiz/app/src/main/res/layout/custom_dailog.xml" value="0.2" />
       </map>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_17" default="true" project-jdk-name="jbr-17" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">
