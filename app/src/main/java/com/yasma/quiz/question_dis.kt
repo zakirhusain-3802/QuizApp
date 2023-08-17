@@ -159,7 +159,7 @@ class question_dis : AppCompatActivity() {
                 val secondsLeft = millisUntilFinished / 1000
                 val timeLeftTextView = findViewById<TextView>(R.id.timeLeftTextView)
                 timeLeftTextView.text = "Time Left: $secondsLeft s"
-                if (secondsLeft == 12L) {
+                if (secondsLeft == 5L) {
                     mediaPlayer.start()
                 }
 
