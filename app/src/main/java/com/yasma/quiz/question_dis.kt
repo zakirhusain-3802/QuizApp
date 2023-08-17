@@ -80,6 +80,9 @@ class question_dis : AppCompatActivity() {
                 // Re-post the runnable after the specified time interval
                 handler.postDelayed(this, timeInterval)
             }
+            else{
+                onBackPressed()
+            }
         }
     }
 
@@ -172,7 +175,10 @@ class question_dis : AppCompatActivity() {
     override fun onDestroy() {
         super.onDestroy()
         // Cancel the countdown timer to prevent memory leaks
-        countDownTimer.cancel()
+        if(::countDownTimer.isInitialized){
+            countDownTimer.cancel()
+        }
+
     }
 
     private fun myFunction() {
@@ -363,13 +369,13 @@ class question_dis : AppCompatActivity() {
 
     }
 
-    override fun onBackPressed() {
-        super.onBackPressed()
-
-        val i = Intent(this, MainActivity::class.java)
-
-        startActivity(i)
-    }
+//    override fun onBackPressed() {
+//        super.onBackPressed()
+//
+////        val i = Intent(this, MainActivity::class.java)
+////
+////        startActivity(i)
+//    }
 
     private fun showDialog() {
         val customDialog = AlertDialog.Builder(this)

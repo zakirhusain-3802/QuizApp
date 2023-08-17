@@ -18,7 +18,7 @@
         <activity
             android:name=".question_dis"
             android:exported="false"
-            android:noHistory="true"/>
+            android:noHistory="false"/>
 
         <activity
             android:name=".MainActivity"
