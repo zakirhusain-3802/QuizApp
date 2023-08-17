@@ -3,7 +3,6 @@ package com.yasma.quiz
 import android.app.Dialog
 import android.content.Intent
 import android.graphics.Color
-import android.media.MediaPlayer
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.os.Handler
@@ -30,7 +29,7 @@ class question_dis : AppCompatActivity() {
     private lateinit var countDownTimer: CountDownTimer
     private val totalTime: Long = 20000 // 60 seconds in milliseconds
     private val interval: Long = 5// 1 second in milliseconds
-    private lateinit var mediaPlayer: MediaPlayer
+
     private val datain = ArrayList<que_ans>()
 
     private val handler = Handler()
@@ -149,8 +148,6 @@ class question_dis : AppCompatActivity() {
     }
 
     private fun startCountdown() {
-        mediaPlayer = MediaPlayer.create(this, R.raw.count_down1)
-
         countDownTimer = object : CountDownTimer(totalTime, interval) {
             override fun onTick(millisUntilFinished: Long) {
                 val progress = (millisUntilFinished.toFloat() / totalTime * 100).toInt()
@@ -159,9 +156,6 @@ class question_dis : AppCompatActivity() {
                 val secondsLeft = millisUntilFinished / 1000
                 val timeLeftTextView = findViewById<TextView>(R.id.timeLeftTextView)
                 timeLeftTextView.text = "Time Left: $secondsLeft s"
-                if (secondsLeft == 5L) {
-                    mediaPlayer.start()
-                }
 
             }
 
