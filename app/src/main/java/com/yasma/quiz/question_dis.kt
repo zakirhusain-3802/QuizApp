@@ -1,7 +1,6 @@
 package com.yasma.quiz
 
 import android.app.Dialog
-import android.content.Intent
 import android.graphics.Color
 import android.media.MediaPlayer
 import android.os.Bundle
@@ -12,7 +11,6 @@ import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
-import androidx.core.os.postDelayed
 import com.yasma.quiz.data.que_ans
 import com.yasma.quiz.data.question
 import retrofit2.Call
@@ -74,17 +72,40 @@ class question_dis : AppCompatActivity() {
         override fun run() {
             // Call your function here
             if (s != 10) {
-
-                myFunction()
+              if(datain.size!=0){
+                myFunction()}
 
 
                 // Re-post the runnable after the specified time interval
                 handler.postDelayed(this, timeInterval)
             }
+            else if(s==10){
+                showScoredailog(total)
+
+            }
             else{
                 onBackPressed()
             }
         }
+    }
+
+    private fun showScoredailog(total: Int) {
+        val dialog = Dialog(this)
+        dialog.setContentView(R.layout.socre_dailog)
+
+        val scoreTextView = dialog.findViewById<TextView>(R.id.scoreTextView)
+        val continueButton = dialog.findViewById<Button>(R.id.continueButton)
+
+        scoreTextView.text = "$total/100"
+
+        continueButton.setOnClickListener {
+
+            dialog.dismiss()
+            onBackPressed()
+            // Add your "Continue" button click logic here
+        }
+
+        dialog.show()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -93,11 +114,7 @@ class question_dis : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_question_dis)
         showProgressBar()
-//        showProgressBar()
-//        val cat=intent.getIntExtra("cat",0)
-//        val level=intent.getStringExtra("level")
-
-//        getqustions(cat,level.toString().lowercase())
+//
         handler.postDelayed(initialRunnable, initialDelay)
 
 //        startCountdown()
@@ -132,6 +149,12 @@ class question_dis : AppCompatActivity() {
                 } else {
                     // Handle the error case, such as logging an error message
                     println("Error: ${response.code()} - ${response.message()}")
+                    Toast.makeText(
+                        applicationContext,
+                        "Could not fetch data. Try again",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    onBackPressed()
                 }
 
             override fun onFailure(call: Call<question?>, t: Throwable) {
@@ -141,8 +164,8 @@ class question_dis : AppCompatActivity() {
                     "Please check internet connetivty",
                     Toast.LENGTH_SHORT
                 ).show()
-                s = 10
-//                onBackPressed()
+//                s = 11
+                onBackPressed()
 
             }
         })
@@ -189,6 +212,7 @@ class question_dis : AppCompatActivity() {
     }
 
     private fun myFunction() {
+        println("MY function")
 
         hideProgressBar()
         startCountdown()
