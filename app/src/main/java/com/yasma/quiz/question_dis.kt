@@ -29,6 +29,7 @@ class question_dis : AppCompatActivity() {
     private val totalTime: Long = 20000 // 60 seconds in milliseconds
     private val interval: Long = 5// 1 second in milliseconds
     private lateinit var mediaPlayer: MediaPlayer
+    private lateinit var mediaPlayer1: MediaPlayer
     private val datain = ArrayList<que_ans>()
 
     private val handler = Handler()
@@ -92,6 +93,7 @@ class question_dis : AppCompatActivity() {
     private fun showScoredailog(total: Int) {
         val dialog = Dialog(this)
         dialog.setContentView(R.layout.socre_dailog)
+        dialog.setCancelable(false)
 
         val scoreTextView = dialog.findViewById<TextView>(R.id.scoreTextView)
         val continueButton = dialog.findViewById<Button>(R.id.continueButton)
@@ -182,7 +184,7 @@ class question_dis : AppCompatActivity() {
                 val secondsLeft = millisUntilFinished / 1000
                 val timeLeftTextView = findViewById<TextView>(R.id.timeLeftTextView)
                 timeLeftTextView.text = "Time Left: $secondsLeft s"
-                if (secondsLeft == 5L) {
+                if (secondsLeft == 4L) {
                     mediaPlayer.start()
                 }
 
@@ -409,6 +411,8 @@ class question_dis : AppCompatActivity() {
 //    }
 
     private fun showDialog() {
+        mediaPlayer1 = MediaPlayer.create(this, R.raw.correct)
+        mediaPlayer1.start()
         val customDialog = AlertDialog.Builder(this)
             .setView(R.layout.custom_dailog) // Set your custom layout here
             .create()
@@ -416,22 +420,26 @@ class question_dis : AppCompatActivity() {
         customDialog.show()
         handler.postDelayed({
             customDialog.dismiss()
+            mediaPlayer1.release()
         }, 3800)
 
     }
 
 
     private fun wrongDialog() {
+        mediaPlayer1 = MediaPlayer.create(this, R.raw.correct)
+        mediaPlayer1.start()
 
-        val customDialog = AlertDialog.Builder(this)
+        val customDialog1 = AlertDialog.Builder(this)
             .setView(R.layout.custom_wrong) // Set your custom layout here
             .create()
 
-        customDialog.show()
+        customDialog1.show()
         handler.postDelayed({
-            customDialog.dismiss()
+            customDialog1.dismiss()
+            mediaPlayer1.release()
         },3800)
-//        customDialog.dismiss()
+
 
     }
 }
