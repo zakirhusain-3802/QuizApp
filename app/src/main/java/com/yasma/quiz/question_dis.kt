@@ -3,11 +3,14 @@ package com.yasma.quiz
 import android.app.Dialog
 import android.graphics.Color
 import android.media.MediaPlayer
+import android.os.Build
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.os.Handler
+import android.text.Html
 import android.view.View
 import android.widget.*
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
@@ -19,6 +22,7 @@ import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.*
+
 
 //const val QBase_url="https://opentdb.com/"
 //https://opentdb.com/api.php?amount=10&category=9&difficulty=medium&type=multiple
@@ -70,6 +74,7 @@ class question_dis : AppCompatActivity() {
 
 
     private val runnable: Runnable = object : Runnable {
+        @RequiresApi(Build.VERSION_CODES.N)
         override fun run() {
             // Call your function here
             if (s != 10) {
@@ -103,11 +108,16 @@ class question_dis : AppCompatActivity() {
         continueButton.setOnClickListener {
 
             dialog.dismiss()
-            onBackPressed()
+            goback()
             // Add your "Continue" button click logic here
         }
 
         dialog.show()
+    }
+
+    private fun goback() {
+        onBackPressed()
+
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -209,10 +219,13 @@ class question_dis : AppCompatActivity() {
         // Cancel the countdown timer to prevent memory leaks
         if(::countDownTimer.isInitialized){
             countDownTimer.cancel()
+
         }
+
 
     }
 
+    @RequiresApi(Build.VERSION_CODES.N)
     private fun myFunction() {
         println("MY function")
 
@@ -220,12 +233,15 @@ class question_dis : AppCompatActivity() {
         startCountdown()
         // Your function's code here
         val qno = findViewById<TextView>(R.id.qno)
-        val question: String = datain[s].question
-        val corret: String = datain[s].correct_answer
+
+        val corret: CharSequence = Html.fromHtml(datain[s].correct_answer, Html.FROM_HTML_MODE_LEGACY)
         val incorect = datain[s].incorrect_answers
         val option = ArrayList<String>()
+        val decodedText: CharSequence = Html.fromHtml(datain[s].question, Html.FROM_HTML_MODE_LEGACY)
+        val question: String=decodedText.toString()
+
         for (data in incorect) {
-            val o = data.toString()
+            val o:CharSequence = Html.fromHtml(data, Html.FROM_HTML_MODE_LEGACY)
             option.add(o.toString())
         }
         println(corret.toString() + " Right")
@@ -441,6 +457,32 @@ class question_dis : AppCompatActivity() {
         },3800)
 
 
+    }
+
+    override fun onBackPressed() {
+
+        if(s!=10&&s!=0){
+        val builder = AlertDialog.Builder(this)
+        builder.setTitle("Alert Dialog")
+            .setMessage("Do you want ot quit quiz?")
+            .setPositiveButton("OK") { dialog, which ->
+                // Do something when the user clicks OK
+                super.onBackPressed()
+
+            }
+            .setNegativeButton("Cancel") { dialog, which ->
+                // Do something when the user clicks Cancel
+            }
+
+
+        val alertDialog = builder.create()
+        alertDialog.show()}
+        else if(s>=1){
+            super.onBackPressed()
+        }
+        else{
+            super.onBackPressed()
+        }
     }
 }
 
