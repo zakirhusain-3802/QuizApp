@@ -244,7 +244,7 @@ class question_dis : AppCompatActivity() {
             val o:CharSequence = Html.fromHtml(data, Html.FROM_HTML_MODE_LEGACY)
             option.add(o.toString())
         }
-        println(corret.toString() + " Right")
+        println(corret.toString() + "Right")
         option.add(corret.toString())
         Collections.shuffle(option)
         println(option)
@@ -266,10 +266,10 @@ class question_dis : AppCompatActivity() {
         C.setTextColor(Color.BLACK)
         D.setBackgroundResource(R.drawable.radio_selector)
         D.setTextColor(Color.BLACK)
-        A.text = option[0]
-        B.text = option[1]
-        C.text = option[2]
-        D.text = option[3]
+        A.text = option[0].trim()
+        B.text = option[1].trim()
+        C.text = option[2].trim()
+        D.text = option[3].trim()
 
         val radioGroup = findViewById<RadioGroup>(R.id.optionsRadioGroup)
         radioGroup!!.clearCheck()
@@ -341,6 +341,7 @@ class question_dis : AppCompatActivity() {
             }
         }
         handler.postDelayed({
+            println(selectoption)
             if (selectoption != null) {
                 if (selectoption!!.text.toString().equals(corret)) {
                     selectoption!!.setBackgroundResource(R.color.green)
@@ -353,19 +354,19 @@ class question_dis : AppCompatActivity() {
                 } else {
                     selectoption!!.setBackgroundResource(R.color.red)
                     selectoption!!.setTextColor(Color.WHITE)
-                    if (A.text.toString().equals(corret)) {
+                    if (A.text.toString().equals(corret.trim().toString())) {
                         A.setBackgroundResource(R.color.green)
                         A.setTextColor(Color.WHITE)
 
-                    } else if (B.text.toString().equals(corret)) {
+                    } else if (B.text.toString().equals(corret.trim().toString())) {
                         B.setBackgroundResource(R.color.green)
                         B.setTextColor(Color.WHITE)
 
-                    } else if (C.text.toString().equals(corret)) {
+                    } else if (C.text.toString().equals(corret.trim().toString())) {
                         C.setBackgroundResource(R.color.green)
                         C.setTextColor(Color.WHITE)
 
-                    } else if (D.text.toString().equals(corret)) {
+                    } else if (D.text.toString().equals(corret.trim().toString())) {
                         D.setBackgroundResource(R.color.green)
                         D.setTextColor(Color.WHITE)
 
@@ -374,20 +375,21 @@ class question_dis : AppCompatActivity() {
 
                 }
 
-            } else {
-                if (A.text.toString().equals(corret)) {
+            }
+            else {
+                if (A.text.trim().toString().equals(corret.trim().toString())) {
                     A.setBackgroundResource(R.color.green)
                     A.setTextColor(Color.WHITE)
 
-                } else if (B.text.toString().equals(corret)) {
+                } else if (B.text.trim().toString().equals(corret.trim().toString())) {
                     B.setBackgroundResource(R.color.green)
                     B.setTextColor(Color.WHITE)
 
-                } else if (C.text.toString().equals(corret)) {
+                } else if (C.text.trim().toString().equals(corret.trim().toString())) {
                     C.setBackgroundResource(R.color.green)
                     C.setTextColor(Color.WHITE)
 
-                } else if (D.text.toString().equals(corret)) {
+                } else if (D.text.trim().toString().equals(corret.trim().toString())) {
                     D.setBackgroundResource(R.color.green)
                     D.setTextColor(Color.WHITE)
 
